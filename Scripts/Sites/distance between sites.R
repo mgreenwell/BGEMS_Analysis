@@ -79,11 +79,6 @@ colnames(site_distances) <- c(as.character(coordinates$code))
 rownames(site_distances) <- c(as.character(coordinates$code))
 
 
-# Write matrix to a csv
-
-#write.csv(site_distances, "Outputs/site_distance_matrix.csv")
- 
-
 # Convert row names into the 1st column of the dataframe
 
 site_distances <- rownames_to_column(site_distances, var = "site_1")
@@ -100,6 +95,11 @@ site_distances <- site_distances %>%
 site_distances <- site_distances %>% 
   mutate(distance_km = distance / 1000) 
 site_distances <- subset(site_distances, select=-c(distance))
+
+
+# Write matrix to a csv
+
+write.csv(site_distances, "Outputs/site_distance_matrix.csv")
 
 
 # Create list of site names
