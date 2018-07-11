@@ -51,7 +51,7 @@ proportions_10km <- gis_data %>%
     bad_habitat = BW + CW + A,
     good_habitat = G,
     total_habitat = bad_habitat + good_habitat,
-    prop_good = good_habitat / total_habitat * 100)  %>%
+    prop_good = good_habitat / total_habitat)  %>%
   select(Code, prop_good)
 
 
@@ -77,7 +77,7 @@ proportions_5km <- gis_data %>%
     bad_habitat = BW + CW + A,
     good_habitat = G,
     total_habitat = bad_habitat + good_habitat,
-    prop_good = good_habitat / total_habitat * 100)  %>%
+    prop_good = good_habitat / total_habitat)  %>%
   select(Code, prop_good)
 
 
