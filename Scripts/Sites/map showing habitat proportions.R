@@ -130,7 +130,7 @@ myMap10km <- get_map(location = mylocation,
 # Scale colours of points to show habitat 
 # Add text labels with geom_text_repel
 
-ggmap(myMap10km) +
+map <- ggmap(myMap10km) +
   geom_point(
     aes(x = longitude,
       y = latitude,
@@ -144,9 +144,19 @@ ggmap(myMap10km) +
     vjust = 0,
     hjust = -0.5,
     col = "white") +
-  ggtitle("10km habitat buffers")
+  ggtitle("10km habitat buffers") + 
+  scalebar(data = coords_10km, 
+                location = "bottomright", 
+                dist = 5, 
+                dd2km = TRUE, 
+                model = 'WGS84', 
+                anchor = c(x = -0.6, y = 51.3), 
+                st.size = 4) 
 
+map
 
+?ggmap
+library(ggsn)
 # ========================== Create 5km buffer map ===========================
 
 
@@ -185,5 +195,12 @@ ggmap(myMap5km) +
                   vjust = 0,
                   hjust = -0.5,
                   col = "white") +
-  ggtitle("5km habitat buffers")
+  ggtitle("5km habitat buffers") +
+  scalebar(data = coords_5km, 
+           location = "bottomright", 
+           dist = 5, 
+           dd2km = TRUE, 
+           model = 'WGS84', 
+           anchor = c(x = -0.6, y = 51.3), 
+           st.size = 4) 
 
