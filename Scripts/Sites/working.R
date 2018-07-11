@@ -1,7 +1,7 @@
 library(ggmap)
 library(tidyverse)
-
-
+library(ggrepel)
+        
 
 gis_data <- read.csv("C:\\Users\\dp005352\\Dropbox\\PhD\\BGEMS\\site_locations\\site_gis_data.csv")
 
@@ -32,15 +32,16 @@ coords <- coords %>% filter(country == c("England"), name != c("Warton Crag LNR"
 coords <- merge(coords, proportions, by.x = "code", by.y = "Code")
 
 # UK map
-mylocation <- c(lon = -1, lat = 51.55)
+mylocation <- c(lon = -1, lat = 51.525)
 myMap <- get_map(location = mylocation, source = "google", maptype = "satellite", zoom = 10)
 
 
 ggmap(myMap) + 
   geom_point(aes(x = longitude, y = latitude, col = coords$prop_good), 
              data = coords, size = 5) + 
-  scale_colour_gradient(low = "red", high = "green")  
+  scale_colour_gradient(low = "red", high = "green") +
+  geom_text_repel(data = coords, aes(x = longitude, y = latitude, label = code), 
+            size = 5, vjust = 0, hjust = -0.5, col = "white")
 
 
-# To do 
-# Work out which site is missing by labeling points
+
