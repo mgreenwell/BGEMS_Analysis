@@ -61,6 +61,7 @@ proportions_10km <- proportions_10km %>%
   filter(Code != c("WC"), Code != c("WG")) %>%
   arrange(prop_good)
 
+proportions_10km
 
 # ======================= Format data for 5km buffer =========================
 
@@ -80,12 +81,15 @@ proportions_5km <- gis_data %>%
   select(Code, prop_good)
 
 
+
 # Remove Warton Cragg and Whitecross green as not included in analysis
 
 proportions_5km <- proportions_5km %>% 
   filter(Code != c("WC"), Code != c("WG")) %>%
   arrange(prop_good)
 
+
+proportions_5km
 
 # ========================== Format map data ==================================
 
