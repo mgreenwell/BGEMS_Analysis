@@ -99,7 +99,7 @@ site_distances <- subset(site_distances, select=-c(distance))
 
 # Write matrix to a csv
 
-write.csv(site_distances, "Outputs/site_distance_matrix.csv")
+#write.csv(site_distances, "Outputs/site_distance_matrix.csv")
 
 
 # Create list of site names
