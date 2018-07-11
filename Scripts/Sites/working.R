@@ -41,7 +41,6 @@ ggmap(myMap) +
              data = coords, size = 5) + 
   scale_colour_gradient(low = "red", high = "green") +
   geom_text_repel(data = coords, aes(x = longitude, y = latitude, label = code), 
-            size = 5, vjust = 0, hjust = -0.5, col = "white")
-
+            size = 5, vjust = 0, hjust = -0.5, col = "white") 
 
 
