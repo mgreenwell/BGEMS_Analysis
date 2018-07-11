@@ -68,6 +68,7 @@ site_distances <-
                 allpairs = T,
                 lonlat = TRUE)
 
+site_distances
 
 # Convert into a dataframe
 
@@ -77,6 +78,16 @@ site_distances <- as.data.frame(site_distances)
 # Add row names and column names to matrix
 colnames(site_distances) <- c(as.character(coordinates$code))
 rownames(site_distances) <- c(as.character(coordinates$code))
+
+
+# Divide matrix by 1000 to get distance in KM instead of M
+
+site_distances <- site_distances/ 1000
+
+
+# Write matrix to a csv
+
+#write.csv(site_distances, "Outputs/site_distance_matrix.csv")
 
 
 # Convert row names into the 1st column of the dataframe
@@ -91,15 +102,7 @@ site_distances <- site_distances %>%
   gather(site_2, distance, LC:WW)
 
 
-# Create new column of distances in KM and remove distances in M
-site_distances <- site_distances %>% 
-  mutate(distance_km = distance / 1000) 
-site_distances <- subset(site_distances, select=-c(distance))
 
-
-# Write matrix to a csv
-
-#write.csv(site_distances, "Outputs/site_distance_matrix.csv")
 
 
 # Create list of site names
@@ -119,7 +122,7 @@ site_distances_arranged <- NULL
 for (i in site_list){
   df <- site_distances %>% 
     filter(site_1 == i) %>%
-    arrange(distance_km)
+    arrange(distance)
   site_distances_arranged = rbind(site_distances_arranged, df)
 }
 
