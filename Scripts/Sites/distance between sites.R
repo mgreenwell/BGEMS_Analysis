@@ -1,10 +1,8 @@
-locations <- read.csv("C:\\Users\\dp005352\\Dropbox\\PhD\\BGEMS\\site_locations\\european_coordinates.csv", header = T)
-
-
-
-
 library(raster)
 library(tidyverse)
+
+
+locations <- read.csv("C:\\Users\\dp005352\\Dropbox\\PhD\\BGEMS\\site_locations\\european_coordinates.csv", header = T)
 
 coordinates <- mutate(locations, longitude1 = longitude, latitude1 = latitude)
 coordinates <- subset(coordinates, select=-c(longitude, latitude))
@@ -22,6 +20,7 @@ site_distances <- as.data.frame(site_distances)
 colnames(site_distances) <- c(as.character(coordinates$code))
 rownames(site_distances) <- c(as.character(coordinates$code))
 site_distances
+#write.csv(site_distances, "Outputs/site_distance_matrix.csv")
   select(site_1,everything())
 head(site_distances)
 
@@ -47,3 +46,4 @@ for (i in site_list){
   site_distances_arranged = rbind(site_distances_arranged, df)
 }
 site_distances_arranged
+
