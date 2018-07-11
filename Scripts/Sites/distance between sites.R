@@ -129,3 +129,7 @@ for (i in site_list){
 
 site_distances_arranged
 
+
+# Detach raster package as overwrites some dplyr commands e.g. select
+
+detach(package:raster, unload = TRUE)
