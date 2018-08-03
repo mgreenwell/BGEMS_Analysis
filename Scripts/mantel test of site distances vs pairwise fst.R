@@ -26,7 +26,7 @@ distance <- read.csv("Outputs/site_distance_matrix.csv", row.names = 1, header =
 # PopGenReport-pairwise_Fst.csv is a matrix of pairwise Fst values between 
 # all sites, calculated using PopGenReport
 
-Fst <- read.csv("../../Lab_Work/Data_analysis/PopGenReport/Outputs/Reports/mkcomplete/PopGenReport-pairwise_Fst.csv", row.names = 1, header = T)
+Fst <- read.csv("Data/Labs/PopGenReport-pairwise_Fst.csv", row.names = 1, header = T)
 
 
 # ========================== Format Data ======================================
