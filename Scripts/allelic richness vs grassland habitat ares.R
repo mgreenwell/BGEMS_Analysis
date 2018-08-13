@@ -4,6 +4,9 @@
 # Script plots allelic richness vs amount of favourabke habitat
 # There is no significant association between the two variables, bith when 
 # split by locus and when all data is grouped together.
+# When deciduous woodland removed as favourable habitat NED 5522 shows 
+# significant positive relationship between amount of good habitat and allelic
+# richness
 
 
 # ========================== Packages Required ================================
@@ -104,10 +107,12 @@ plot1 <- ggplot(all_data, aes(good_habitat, allelic_richness)) +
   stat_smooth(method = "lm")
  plot1
 
+
+# Linear model of allelic richness vs amount of favourable habitat
+ 
 linearmod <- lm(allelic_richness ~ good_habitat, data = all_data) 
 
 summary(linearmod)
-
 
 
 # Plot results showing amount of favourable habitat vs allelic richness, 
@@ -131,11 +136,115 @@ plot3 <- ggplot(all_data, aes(good_habitat, allelic_richness)) +
 
 plot3
 
+
+# Create list of loci
+
 loci_list <- unique(all_data$Locus)
  
+
+# Loop runs a linear model for each locus of good habitat vs allelic richness
+
 for( i in loci_list) {
    filtered_data <- filter(all_data, Locus == i)
    linearmod <- lm(allelic_richness ~ good_habitat, data = filtered_data) 
    print(i)
    print(summary(linearmod))
- }
+}
+
+
+# ==================== Re running removing deciduous woodland ================
+
+
+all_data_deciduous_removed <-
+  merge(LCM_data, allelic_richness , 
+        by.x = "Code", by.y = "site")
+
+
+# Select only the columns code, locus, allelic richness and all grassland types
+
+all_data_deciduous_removed <- select(
+  all_data_deciduous_removed,
+  Code,
+  Rough.Grassland,
+  Neutral.Grassland,
+  Calcareous.Grassland,
+  Locus,
+  allelic_richness
+)
+
+
+# Add all grassland columns together to get a single column totaling all grasses
+# Remove old grass columns
+
+all_data_deciduous_removed <- all_data_deciduous_removed %>%
+  mutate(good_habitat = 
+           Rough.Grassland + 
+           Neutral.Grassland + 
+           Calcareous.Grassland) %>%
+  select(Code, good_habitat, Locus, allelic_richness)
+
+
+# ========================== Plots and Linear Models ==========================
+
+
+# Plot results showing amount of favourable habitat vs allelic richness
+# All sites and loci, not split
+
+plot4 <-
+  ggplot(all_data_deciduous_removed,
+         aes(good_habitat, allelic_richness)) +
+  geom_point() +
+  stat_smooth(method = "lm")
+
+plot4
+
+
+# Linear model of allelic richness vs amount of favourable habitat
+
+linearmod <- lm(allelic_richness ~ good_habitat, 
+                data = all_data_deciduous_removed) 
+
+summary(linearmod)
+
+
+# Plot results showing amount of favourable habitat vs allelic richness, 
+# split by locus 
+
+plot5 <- ggplot(all_data_deciduous_removed, 
+                aes(good_habitat, allelic_richness)) +
+  geom_point(aes(color = Locus)) +
+  geom_line(aes(colour = Locus)) 
+
+plot5
+
+
+# Plot results showing amount of favourable habitat vs allelic richness, 
+# split by locus and linear models run
+
+plot6 <- ggplot(all_data_deciduous_removed, 
+                aes(good_habitat, allelic_richness)) + 
+  geom_point() +
+  geom_smooth(method=lm) +
+  facet_wrap(~Locus, scales="free_x") +
+  labs(x = "Area of favourable habitat", y = "Allelic Richness")
+
+plot6
+
+
+# Create list of loci
+
+loci_list <- unique(all_data_deciduous_removed$Locus)
+
+
+# Loop runs a linear model for each locus of good habitat vs allelic richness
+
+for( i in loci_list) {
+  filtered_data <- filter(all_data_deciduous_removed, Locus == i)
+  linearmod <- lm(allelic_richness ~ good_habitat, data = filtered_data) 
+  print(i)
+  print(summary(linearmod))
+}
+
+
+
+
