@@ -1,11 +1,13 @@
 # ============================== Overview =====================================
 
+
 # Script takes two dataframes, converts them into distance matricies with the
 # same number and same titled rows and columns and compares the two using a 
 # mantel test.
 
 # Mantel test result shows no significant correlation between the two matricies
  # I.e. the two matricies are unrelated.
+
 
 # ======================== Packages Required ==================================
 
@@ -21,12 +23,14 @@ library(ade4)
 # site_distance_matrix.csv is a file containing the pairwise distances between 
 # all BGEMS sites i.e. the distances between each site and every other site.
 
-distance <- read.csv("Outputs/site_distance_matrix.csv", row.names = 1, header = T)
+distance <- read.csv("Outputs/site_distance_matrix.csv", 
+                     row.names = 1, header = T)
 
 # PopGenReport-pairwise_Fst.csv is a matrix of pairwise Fst values between 
 # all sites, calculated using PopGenReport
 
-Fst <- read.csv("Data/Labs/PopGenReport-pairwise_Fst.csv", row.names = 1, header = T)
+Fst <- read.csv("Data/Labs/PopGenReport-pairwise_Fst.csv", 
+                row.names = 1, header = T)
 
 
 # ========================== Format Data ======================================
@@ -40,7 +44,8 @@ upperTriangle(Fst) <- lowerTriangle(Fst)
 # Need to match the order of rows and columns in both dataframes
 # I.e. rows and columns need to be alphabetical
 
-distance <- distance[order(rownames(distance)), order(colnames(distance))]
+distance <- distance[order(rownames(distance)), 
+                     order(colnames(distance))]
 
 
 # Need to remove any rows or columns that don't appear in both dataframes
