@@ -4,7 +4,7 @@
 library(ggmap)
 library(tidyverse)
 library(ggrepel)
-        
+library(OpenStreetMap)      
 
 # =============================== Load data ===================================
 
@@ -12,16 +12,16 @@ library(ggrepel)
 # site_gis_data.csv contains all information from the CEH Land Cover Map
 # Just contains BGEMS sites
 
-gis_data <- read.csv("Data/Sites/site_gis_data.csv")
+gis_data <- read.csv("Data/Sites_&_GIS_Data/site_gis_data.csv")
 
 
 # site_number_allocations.csv contains name data and grid refs for sites
 
-site_numbers <- read.csv("Data/Sites/site_number_allocations.csv")
+site_numbers <- read.csv("Data/Sites_&_GIS_Data/site_number_allocations.csv")
 
 # european coordinates contains all lat on long values for all BGEMS sites
 
-coords <- read.csv("Data/Sites/european_coordinates.csv")
+coords <- read.csv("Data/Sites_&_GIS_Data/european_coordinates.csv")
 
 
 # ============================== Format data ==================================
@@ -114,23 +114,23 @@ coords <- coords %>%
 coords_10km <- merge(coords, proportions_10km, by.x = "code", by.y = "Code")
 
 
+mp_bing <- openmap(c(lat = 51.8 , long = -1.35),
+                   c(lat = 51.25, long = -0.65),zoom = NULL,type = "bing")
+
+# Convert mercator
+map.latlon <- openproj(mp_bing, projection = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
+
 # Set location of centre of map
 
 mylocation <- c(lon = -1, lat = 51.525)
 
 
-# Create base map from google maps using ggmap. 
-
-myMap10km <- get_map(location = mylocation, 
-                 source = "google", 
-                 maptype = "satellite", 
-                 zoom = 10)
 
 # Add points to map with geom_point
 # Scale colours of points to show habitat 
 # Add text labels with geom_text_repel
 
-map <- ggmap(myMap10km) +
+map <- OSMap <- autoplot(map.latlon) +
   geom_point(
     aes(x = longitude,
       y = latitude,
@@ -144,8 +144,8 @@ map <- ggmap(myMap10km) +
     vjust = 0,
     hjust = -0.5,
     col = "white") +
-  ggtitle("10km habitat buffers") + 
-  scalebar(data = coords_10km, 
+  ggtitle("10km habitat buffers") #+ 
+  #scalebar(data = coords_10km, 
                 location = "bottomright", 
                 dist = 5, 
                 dd2km = TRUE, 
@@ -155,7 +155,7 @@ map <- ggmap(myMap10km) +
 
 map
 
-?ggmap
+
 library(ggsn)
 # ========================== Create 5km buffer map ===========================
 
